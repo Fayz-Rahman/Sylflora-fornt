@@ -1,0 +1,47 @@
+body {
+    background-color: #F5F5F5;
+    color: #023020;
+}
+.font-english { font-family: 'Poppins', sans-serif; }
+.font-bangla { font-family: 'Hind Siliguri', sans-serif; }
+
+/* Color Palette */
+.sylflora-gold { color: #FFD700; }
+.bg-sylflora-gold { background-color: #FFD700; }
+.border-sylflora-gold { border-color: #FFD700; }
+.bg-sylflora-green { background-color: #023020; }
+.text-sylflora-green { color: #023020; }
+.border-sylflora-green { border-color: #023020; }
+.text-sylflora-offwhite { color: #F5F5F5; }
+
+/* Modal Styles */
+.modal-bg {
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+}
+
+/* Chart Styles */
+.chart-container {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    height: 300px;
+    max-height: 400px;
+}
+@media (min-width: 768px) {
+    .chart-container {
+        height: 350px;
+    }
+}
+
+/* Cart Slide-in/out Animation */
+.cart-slide-in {
+    transform: translateX(0%);
+}
+.cart-slide-out {
+    transform: translateX(100%);
+}
+data

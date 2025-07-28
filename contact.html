@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="bn" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Sylflora</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="font-bangla">
+
+    <header class="bg-sylflora-green text-sylflora-offwhite sticky top-0 z-50 shadow-lg">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <div class="text-2xl font-bold">
+                    <a href="index.html" class="flex items-center space-x-2">
+                        <span>SYLFLORA</span>
+                    </a>
+                </div>
+                <nav class="hidden md:flex items-center space-x-8">
+                    <a href="shop.html" class="hover:sylflora-gold transition duration-300" data-lang-key="nav_shop">Shop</a>
+                    <a href="index.html#test-kit-promo" class="hover:sylflora-gold transition duration-300" data-lang-key="nav_test_kit">Test Kit</a>
+                    <a href="about.html" class="hover:sylflora-gold transition duration-300" data-lang-key="nav_about">About</a>
+                    <a href="contact.html" class="hover:sylflora-gold transition duration-300" data-lang-key="nav_contact">Contact</a>
+                </nav>
+                <div class="flex items-center space-x-4">
+                    <button id="cart-button" class="relative p-2">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                        <span id="cart-badge" class="absolute top-0 right-0 bg-sylflora-gold text-sylflora-green text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center hidden">0</span>
+                    </button>
+                    <button id="lang-switcher" class="border border-sylflora-gold text-sylflora-gold font-semibold py-2 px-4 rounded-full hover:bg-sylflora-gold hover:text-sylflora-green transition duration-300">
+                        English
+                    </button>
+                    <button id="mobile-menu-button" class="md:hidden p-2">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden bg-sylflora-green">
+             <a href="shop.html" class="block text-center py-4 text-lg hover:bg-sylflora-gold hover:text-sylflora-green transition duration-300" data-lang-key="nav_shop_mobile">Shop</a>
+             <a href="index.html#test-kit-promo" class="block text-center py-4 text-lg hover:bg-sylflora-gold hover:text-sylflora-green transition duration-300" data-lang-key="nav_test_kit_mobile">Test Kit</a>
+             <a href="about.html" class="block text-center py-4 text-lg hover:bg-sylflora-gold hover:text-sylflora-green transition duration-300" data-lang-key="nav_about_mobile">About</a>
+             <a href="contact.html" class="block text-center py-4 text-lg hover:bg-sylflora-gold hover:text-sylflora-green transition duration-300" data-lang-key="nav_contact_mobile">Contact</a>
+        </div>
+    </header>
+
+    <main>
+        <section id="contact" class="py-16 md:py-24">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                 <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-sylflora-green" data-lang-key="contact_title">Get In Touch</h2>
+                     <p class="mt-4 text-lg text-gray-600" data-lang-key="contact_subtitle">We would love to hear from you. For inquiries, support, or feedback, please reach out.</p>
+                </div>
+                <div class="max-w-xl mx-auto">
+                    <form id="facebook-message-form" class="space-y-6">
+                        <div>
+                             <label for="contact-name" class="sr-only" data-lang-key="form_name">Name</label>
+                            <input type="text" id="contact-name" class="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-sylflora-gold" data-lang-placeholder-key="form_name_placeholder">
+                        </div>
+                        <div>
+                            <label for="contact-message" class="sr-only" data-lang-key="form_message">Message</label>
+                            <textarea id="contact-message" rows="5" class="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-sylflora-gold" data-lang-placeholder-key="form_message_placeholder" required></textarea>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="w-full bg-blue-600 text-white font-bold py-3 px-8 rounded-full hover:bg-blue-700 transition duration-300 flex items-center justify-center gap-2">
+                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.04C6.5 2.04 2 6.53 2 12.06C2 17.06 5.66 21.21 10.44 21.96V14.96H7.9V12.06H10.44V9.85C10.44 7.32 11.93 5.96 14.22 5.96C15.31 5.96 16.45 6.15 16.45 6.15V8.62H15.19C13.95 8.62 13.56 9.39 13.56 10.18V12.06H16.34L15.89 14.96H13.56V21.96A10 10 0 0 0 22 12.06C22 6.53 17.5 2.04 12 2.04Z"></path></svg>
+                                <span data-lang-key="contact_facebook">Message us on Facebook</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <footer class="bg-sylflora-green text-sylflora-offwhite py-8">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p>&copy; 2025 Sylflora. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="data.js"></script>
+    <script src="global.js"></script>
+    <script src="contact.js"></script> </body>
+</html>
