@@ -9,8 +9,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- DOM Elements for Shop Page ---
     const productGrid = getEl('product-grid');
     const searchInput = getEl('search-input');
-    const filterButtonsContainer = getEl('filter-buttons');
-    const sortSelect = getEl('sort-select');
+    
+    // --- নতুন এলিমেন্ট (পুরাতন filterButtonsContainer এবং sortSelect বাদ দেওয়া হয়েছে) ---
+    const filterMenuButton = getEl('filter-menu-button');
+    const filterOptions = getEl('filter-options');
+    const sortMenuButton = getEl('sort-menu-button');
+    const sortOptions = getEl('sort-options');
+    const filterContainer = getEl('filter-container');
+    const sortContainer = getEl('sort-container');
+    // --------------------------------------------------------------------------
     
     // Cart Modal Elements
     const cartModal = getEl('cart-modal');
@@ -36,7 +43,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const orderConfirmationOverlay = getEl('order-confirmation-overlay');
     const orderConfirmationBtn = getEl('order-confirmation-btn');
 
-    // === Cart & Checkout Logic ---
+    // --- ফিল্টার এবং সর্টিং এর স্টেট সংরক্ষণের জন্য ভ্যারিয়েবল ---
+    let activeFilter = 'all';
+    let sortValue = 'default';
+    // --------------------------------------------------------
+
+    // === Cart & Checkout Logic (No changes here) ---
     const openCart = () => {
         if (!cartModal) return;
         renderCartItems();
@@ -153,7 +165,7 @@ document.addEventListener('DOMContentLoaded', () => {
         orderConfirmationModal.classList.remove('flex');
     };
 
-    // --- Product Display Logic ---
+    // --- Product Display Logic (No changes here) ---
     const getBasePriceInfo = (product) => {
         let minPriceInfo = null;
         if (!product || !product.prices) return null;
@@ -201,40 +213,90 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
+    // --- *** আপডেট করা প্রোডাক্ট ডিসপ্লে ফাংশন *** ---
     const updateDisplayedProducts = () => {
         if (!productGrid) return;
         const searchTerm = searchInput.value.toLowerCase().trim();
-        const activeFilterBtn = filterButtonsContainer.querySelector('.bg-sylflora-green');
-        const activeFilter = activeFilterBtn ? activeFilterBtn.dataset.filter : 'all';
-        const sortValue = sortSelect.value;
+        
+        // পুরাতন DOM রিডিং এর বদলে স্টেট ভ্যারিয়েবল ব্যবহার করা হচ্ছে
         let filteredProducts = productData.filter(p => p.name.toLowerCase().includes(searchTerm));
+        
         if (activeFilter !== 'all') {
             filteredProducts = filteredProducts.filter(p => p.gender === activeFilter || (activeFilter === 'Female' && p.gender === 'Women'));
         }
+        
         if (sortValue === 'price-asc') {
             filteredProducts.sort((a, b) => (getBasePriceInfo(a)?.offer || Infinity) - (getBasePriceInfo(b)?.offer || Infinity));
         } else if (sortValue === 'price-desc') {
             filteredProducts.sort((a, b) => (getBasePriceInfo(b)?.offer || -Infinity) - (getBasePriceInfo(a)?.offer || -Infinity));
         }
+        
         renderProducts(filteredProducts);
     };
 
-    // --- Event Listeners on Shop Page ---
+    // --- *** নতুন Event Listeners *** ---
     if (productGrid) {
+        // সার্চ ইনপুটের জন্য লিসেনার
         searchInput.addEventListener('input', updateDisplayedProducts);
-        sortSelect.addEventListener('change', updateDisplayedProducts);
-        filterButtonsContainer.addEventListener('click', (e) => {
-            const target = e.target.closest('.filter-btn');
-            if (!target) return;
-            filterButtonsContainer.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.classList.remove('bg-sylflora-green', 'text-sylflora-offwhite');
-                btn.classList.add('border', 'border-sylflora-green');
-            });
-            target.classList.add('bg-sylflora-green', 'text-sylflora-offwhite');
-            target.classList.remove('border');
-            updateDisplayedProducts();
+
+        // --- ড্রপডাউন মেনু খোলার এবং বন্ধ করার জন্য লজিক ---
+        filterMenuButton.addEventListener('click', (event) => {
+            event.stopPropagation();
+            filterOptions.classList.toggle('hidden');
+            sortOptions.classList.add('hidden'); // অন্য মেনু বন্ধ করুন
         });
 
+        sortMenuButton.addEventListener('click', (event) => {
+            event.stopPropagation();
+            sortOptions.classList.toggle('hidden');
+            filterOptions.classList.add('hidden'); // অন্য মেনু বন্ধ করুন
+        });
+
+        // বাইরে ক্লিক করলে মেনু বন্ধ করার জন্য
+        document.addEventListener('click', (event) => {
+            if (filterContainer && !filterContainer.contains(event.target)) {
+                filterOptions.classList.add('hidden');
+            }
+            if (sortContainer && !sortContainer.contains(event.target)) {
+                sortOptions.classList.add('hidden');
+            }
+        });
+
+        // --- ফিল্টার বাটনগুলোর জন্য নতুন লিসেনার ---
+        if (filterOptions) {
+            filterOptions.addEventListener('click', (e) => {
+                const target = e.target.closest('.filter-btn');
+                if (!target) return;
+
+                activeFilter = target.dataset.filter; // ফিল্টার স্টেট আপডেট করুন
+                updateDisplayedProducts(); // প্রোডাক্ট লিস্ট আপডেট করুন
+                filterOptions.classList.add('hidden'); // মেনু বন্ধ করুন
+
+                // (Optional) Active button style
+                filterOptions.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('bg-gray-200', 'font-bold'));
+                target.classList.add('bg-gray-200', 'font-bold');
+            });
+        }
+        
+        // --- সর্ট লিঙ্কগুলোর জন্য নতুন লিসেনার ---
+        if (sortOptions) {
+            sortOptions.addEventListener('click', (e) => {
+                const target = e.target.closest('.sort-link');
+                if (!target) return;
+
+                e.preventDefault();
+                sortValue = target.dataset.value; // সর্ট স্টেট আপডেট করুন
+                updateDisplayedProducts(); // প্রোডাক্ট লিস্ট আপডেট করুন
+                sortOptions.classList.add('hidden'); // মেনু বন্ধ করুন
+                
+                // (Optional) Active link style
+                sortOptions.querySelectorAll('.sort-link').forEach(link => link.classList.remove('bg-gray-200', 'font-bold'));
+                target.classList.add('bg-gray-200', 'font-bold');
+            });
+        }
+
+
+        // --- কার্ট এবং চেকআউটের জন্য পুরোনো লিসেনারগুলো অপরিবর্তিত ---
         const cartButton = getEl('cart-button');
         if (cartButton && cartModal) {
             cartButton.addEventListener('click', openCart);
