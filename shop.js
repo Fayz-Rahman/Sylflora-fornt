@@ -9,15 +9,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- DOM Elements for Shop Page ---
     const productGrid = getEl('product-grid');
     const searchInput = getEl('search-input');
-    
-    // --- নতুন এলিমেন্ট (পুরাতন filterButtonsContainer এবং sortSelect বাদ দেওয়া হয়েছে) ---
     const filterMenuButton = getEl('filter-menu-button');
     const filterOptions = getEl('filter-options');
     const sortMenuButton = getEl('sort-menu-button');
     const sortOptions = getEl('sort-options');
     const filterContainer = getEl('filter-container');
     const sortContainer = getEl('sort-container');
-    // --------------------------------------------------------------------------
     
     // Cart Modal Elements
     const cartModal = getEl('cart-modal');
@@ -46,9 +43,31 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- ফিল্টার এবং সর্টিং এর স্টেট সংরক্ষণের জন্য ভ্যারিয়েবল ---
     let activeFilter = 'all';
     let sortValue = 'default';
-    // --------------------------------------------------------
 
-    // === Cart & Checkout Logic (No changes here) ---
+    // === নতুন: পণ্যের পরিমাণ আপডেট করার জন্য ফাংশন ===
+    const updateCartItemQuantity = (cartItemId, action) => {
+        let cart = getCart();
+        const itemIndex = cart.findIndex(item => item.cartItemId === cartItemId);
+
+        if (itemIndex > -1) {
+            if (action === 'increase') {
+                cart[itemIndex].quantity++;
+            } else if (action === 'decrease') {
+                cart[itemIndex].quantity--;
+            }
+
+            // পরিমাণ ০ বা তার কম হলে আইটেমটি কার্ট থেকে মুছে যাবে
+            if (cart[itemIndex].quantity <= 0) {
+                cart.splice(itemIndex, 1);
+            }
+        }
+
+        saveCart(cart);
+        renderCartItems();
+        updateCartBadge();
+    };
+
+    // === Cart & Checkout Logic ---
     const openCart = () => {
         if (!cartModal) return;
         renderCartItems();
@@ -74,8 +93,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 300);
     };
 
+    // === আপডেট করা হয়েছে: পরিমাণ নিয়ন্ত্রণের বাটনসহ renderCartItems ফাংশন ===
     const renderCartItems = () => {
         const cart = getCart();
+        if (!cartItemsContainer) return;
         cartItemsContainer.innerHTML = '';
         if (cart.length === 0) {
             cartItemsContainer.innerHTML = `<p class="text-center text-gray-500 py-8" data-lang-key="cart_empty">${langData[currentLang].cart_empty}</p>`;
@@ -88,15 +109,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 const itemEl = document.createElement('div');
                 itemEl.className = 'flex items-center justify-between py-4';
                 itemEl.innerHTML = `
-                    <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-4 flex-1">
                         <img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-cover rounded-md">
-                        <div>
-                            <p class="font-semibold">${item.name}</p>
+                        <div class="flex-1 min-w-0">
+                            <p class="font-semibold truncate">${item.name}</p>
                             <p class="text-sm text-gray-500">${item.size ? item.size : ''}</p>
-                            <p class="text-sm font-bold text-sylflora-green">BDT ${item.price.toLocaleString('en-IN')} x ${item.quantity}</p>
+                            <div class="flex items-center gap-3 mt-2">
+                                <button class="quantity-btn h-6 w-6 flex items-center justify-center bg-gray-200 rounded-full text-lg font-bold" data-id="${item.cartItemId}" data-action="decrease">-</button>
+                                <span class="font-semibold">${item.quantity}</span>
+                                <button class="quantity-btn h-6 w-6 flex items-center justify-center bg-gray-200 rounded-full text-lg font-bold" data-id="${item.cartItemId}" data-action="increase">+</button>
+                            </div>
                         </div>
                     </div>
-                    <button class="remove-item-btn text-red-500 hover:text-red-700 text-2xl" data-id="${item.cartItemId}">&times;</button>
+                    <div class="text-right ml-2">
+                        <p class="font-bold text-sylflora-green">BDT ${(item.price * item.quantity).toLocaleString('en-IN')}</p>
+                        <button class="remove-item-btn text-red-500 hover:text-red-700 text-sm mt-1" data-id="${item.cartItemId}">Remove</button>
+                    </div>
                 `;
                 cartItemsContainer.appendChild(itemEl);
             });
@@ -144,10 +172,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-        
-        // =============================================
-        // === ডেলিভারি চার্জের হিসাব এখানে পরিবর্তন করা হয়েছে ===
-        // =============================================
         const deliveryLocation = document.querySelector('input[name="delivery_location"]:checked');
         const deliveryCharge = deliveryLocation && deliveryLocation.value === 'inside' ? 80 : 130;
         
@@ -169,7 +193,7 @@ document.addEventListener('DOMContentLoaded', () => {
         orderConfirmationModal.classList.remove('flex');
     };
 
-    // --- Product Display Logic (No changes here) ---
+    // --- Product Display Logic ---
     const getBasePriceInfo = (product) => {
         let minPriceInfo = null;
         if (!product || !product.prices) return null;
@@ -217,12 +241,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    // --- *** আপডেট করা প্রোডাক্ট ডিসপ্লে ফাংশন *** ---
     const updateDisplayedProducts = () => {
         if (!productGrid) return;
         const searchTerm = searchInput.value.toLowerCase().trim();
         
-        // পুরাতন DOM রিডিং এর বদলে স্টেট ভ্যারিয়েবল ব্যবহার করা হচ্ছে
         let filteredProducts = productData.filter(p => p.name.toLowerCase().includes(searchTerm));
         
         if (activeFilter !== 'all') {
@@ -238,25 +260,22 @@ document.addEventListener('DOMContentLoaded', () => {
         renderProducts(filteredProducts);
     };
 
-    // --- *** নতুন Event Listeners *** ---
+    // --- Event Listeners on Shop Page ---
     if (productGrid) {
-        // সার্চ ইনপুটের জন্য লিসেনার
         searchInput.addEventListener('input', updateDisplayedProducts);
 
-        // --- ড্রপডাউন মেনু খোলার এবং বন্ধ করার জন্য লজিক ---
         filterMenuButton.addEventListener('click', (event) => {
             event.stopPropagation();
             filterOptions.classList.toggle('hidden');
-            sortOptions.classList.add('hidden'); // অন্য মেনু বন্ধ করুন
+            sortOptions.classList.add('hidden');
         });
 
         sortMenuButton.addEventListener('click', (event) => {
             event.stopPropagation();
             sortOptions.classList.toggle('hidden');
-            filterOptions.classList.add('hidden'); // অন্য মেনু বন্ধ করুন
+            filterOptions.classList.add('hidden');
         });
 
-        // বাইরে ক্লিক করলে মেনু বন্ধ করার জন্য
         document.addEventListener('click', (event) => {
             if (filterContainer && !filterContainer.contains(event.target)) {
                 filterOptions.classList.add('hidden');
@@ -266,41 +285,31 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // --- ফিল্টার বাটনগুলোর জন্য নতুন লিসেনার ---
         if (filterOptions) {
             filterOptions.addEventListener('click', (e) => {
                 const target = e.target.closest('.filter-btn');
                 if (!target) return;
-
-                activeFilter = target.dataset.filter; // ফিল্টার স্টেট আপডেট করুন
-                updateDisplayedProducts(); // প্রোডাক্ট লিস্ট আপডেট করুন
-                filterOptions.classList.add('hidden'); // মেনু বন্ধ করুন
-
-                // (Optional) Active button style
+                activeFilter = target.dataset.filter;
+                updateDisplayedProducts();
+                filterOptions.classList.add('hidden');
                 filterOptions.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('bg-gray-200', 'font-bold'));
                 target.classList.add('bg-gray-200', 'font-bold');
             });
         }
         
-        // --- সর্ট লিঙ্কগুলোর জন্য নতুন লিসেনার ---
         if (sortOptions) {
             sortOptions.addEventListener('click', (e) => {
                 const target = e.target.closest('.sort-link');
                 if (!target) return;
-
                 e.preventDefault();
-                sortValue = target.dataset.value; // সর্ট স্টেট আপডেট করুন
-                updateDisplayedProducts(); // প্রোডাক্ট লিস্ট আপডেট করুন
-                sortOptions.classList.add('hidden'); // মেনু বন্ধ করুন
-                
-                // (Optional) Active link style
+                sortValue = target.dataset.value;
+                updateDisplayedProducts();
+                sortOptions.classList.add('hidden');
                 sortOptions.querySelectorAll('.sort-link').forEach(link => link.classList.remove('bg-gray-200', 'font-bold'));
                 target.classList.add('bg-gray-200', 'font-bold');
             });
         }
 
-
-        // --- কার্ট এবং চেকআউটের জন্য পুরোনো লিসেনারগুলো অপরিবর্তিত ---
         const cartButton = getEl('cart-button');
         if (cartButton && cartModal) {
             cartButton.addEventListener('click', openCart);
@@ -312,15 +321,26 @@ document.addEventListener('DOMContentLoaded', () => {
         if (checkoutBtn) checkoutBtn.addEventListener('click', openCheckoutModal);
         if (closeCheckoutModalBtn) closeCheckoutModalBtn.addEventListener('click', closeCheckoutModal);
 
+        // === আপডেট করা হয়েছে: পরিমাণ এবং রিমুভ বাটনের জন্য ইভেন্ট লিসেনার ===
         if (cartItemsContainer) {
             cartItemsContainer.addEventListener('click', e => {
-                if (e.target.classList.contains('remove-item-btn')) {
-                    const cartItemId = e.target.dataset.id;
+                const target = e.target;
+                
+                // Remove button action
+                if (target.classList.contains('remove-item-btn')) {
+                    const cartItemId = target.dataset.id;
                     let cart = getCart();
                     cart = cart.filter(item => item.cartItemId !== cartItemId);
                     saveCart(cart);
                     renderCartItems();
                     updateCartBadge();
+                }
+
+                // Quantity button action
+                if (target.classList.contains('quantity-btn')) {
+                    const cartItemId = target.dataset.id;
+                    const action = target.dataset.action;
+                    updateCartItemQuantity(cartItemId, action);
                 }
             });
         }
