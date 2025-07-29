@@ -144,8 +144,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+        
+        // =============================================
+        // === ডেলিভারি চার্জের হিসাব এখানে পরিবর্তন করা হয়েছে ===
+        // =============================================
         const deliveryLocation = document.querySelector('input[name="delivery_location"]:checked');
-        const deliveryCharge = deliveryLocation && deliveryLocation.value === 'inside' ? 80 : 150;
+        const deliveryCharge = deliveryLocation && deliveryLocation.value === 'inside' ? 80 : 130;
         
         checkoutSubtotalAmount.textContent = `BDT ${subtotal.toLocaleString('en-IN')}`;
         checkoutDeliveryAmount.textContent = `BDT ${deliveryCharge.toLocaleString('en-IN')}`;
