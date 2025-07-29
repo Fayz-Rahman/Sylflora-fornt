@@ -86,7 +86,8 @@ const langData = {
         checkout_details_title: "Your Details",
         checkout_form_name: "Your Name",
         checkout_form_phone: "Your Mobile Number* (11 Digits)",
-        checkout_form_address: "Your Full Address\n(Thana, District, and where will the delivery person come?*)",
+        checkout_form_address:"Enter your full address\n\n(e.g., Thana, District, and exact delivery location details)",
+        
         checkout_delivery_location: "Delivery Location",
         
         checkout_inside_dhaka: 'Inside Dhaka<br><span style="font-size: 0.8em;">(80 tk)</span>',
@@ -168,7 +169,8 @@ checkout_outside_dhaka: 'Outside Dhaka<br><span style="font-size: 0.8em;">(130 t
         checkout_details_title: "আপনার তথ্য",
         checkout_form_name: "আপনার নাম",
         checkout_form_phone: "আপনার মোবাইল নাম্বার* (১১ ডিজিট)",
-        checkout_form_address: "আপনার সম্পূর্ণ ঠিকানা\n(থানা, জেলা এবং ডেলিভারী ম্যান কোথায় আসবে?*)",
+        checkout_form_address: "আপনার সম্পূর্ণ ঠিকানা লিখুন \n\n(যেমন: থানা, জেলা এবং ডেলিভারি ম্যান কোথায় পৌঁছাবে তা বিস্তারিতভাবে লিখুন)",
+
         checkout_delivery_location: "ডেলিভারি এলাকা",
         checkout_inside_dhaka: 'ঢাকার মধ্যে <br> <span style="font-size: 0.8em;">(৮০ টাকা)</span>',
         
