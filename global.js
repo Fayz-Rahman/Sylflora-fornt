@@ -30,10 +30,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const updateCartBadge = () => {
         const cart = getCart();
         const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+        
         const cartBadge = getEl('cart-badge');
         if (cartBadge) {
             cartBadge.textContent = totalItems;
             cartBadge.classList.toggle('hidden', totalItems === 0);
+        }
+
+        const bottomNavCartBadge = getEl('bottom-nav-cart-badge');
+        if (bottomNavCartBadge) {
+            bottomNavCartBadge.textContent = totalItems;
+            bottomNavCartBadge.classList.toggle('hidden', totalItems === 0);
         }
     };
 
@@ -121,7 +128,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     const cartButton = getEl('cart-button');
-    // This is the corrected logic: it redirects only if the cart modal isn't on the current page.
     if (cartButton && !getEl('cart-modal')) { 
         cartButton.addEventListener('click', () => {
             window.location.href = 'shop.php?openCart=true';
@@ -142,5 +148,31 @@ document.addEventListener('DOMContentLoaded', () => {
         if (goToCartBtn) goToCartBtn.addEventListener('click', () => {
             window.location.href = 'shop.php?openCart=true';
         });
+    }
+    
+    // --- Bottom Nav Logic ---
+    const bottomNavCartButton = getEl('nav-cart');
+    if (bottomNavCartButton) {
+        bottomNavCartButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            // If we are on a page with a cart modal, open it.
+            const cartModal = getEl('cart-modal');
+            if (cartModal && window.sylflora && typeof window.sylflora.openCart === 'function') {
+                 window.sylflora.openCart();
+            } else {
+                // Otherwise, go to the shop page and open the cart.
+                window.location.href = 'shop.php?openCart=true';
+            }
+        });
+    }
+
+    // Set active state for bottom nav
+    const currentPage = window.location.pathname.split("/").pop() || 'index.php';
+    if (currentPage.startsWith('index')) {
+        getEl('nav-home')?.classList.add('mobile-bottom-nav__link--active');
+    } else if (currentPage.startsWith('shop') || currentPage.startsWith('product')) {
+        getEl('nav-shop')?.classList.add('mobile-bottom-nav__link--active');
+    } else if (currentPage.startsWith('contact')) {
+        getEl('nav-contact')?.classList.add('mobile-bottom-nav__link--active');
     }
 });

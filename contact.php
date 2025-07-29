@@ -49,6 +49,8 @@
         </div>
     </footer>
 
+
+  <?php include 'bottom-nav.php'; ?>
     <script src="data.js"></script>
     <script src="global.js"></script>
     <script src="contact.js"></script> </body>
