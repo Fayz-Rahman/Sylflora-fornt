@@ -13,7 +13,7 @@
 </head>
 <body class="font-bangla bg-gray-50">
 
-    <custom-header></custom-header>
+    <?php include 'header.php'; ?>
 
     <main>
         <section id="about-hero" class="bg-white">
@@ -68,7 +68,5 @@
     <script src="data.js"></script>
     <script src="global.js"></script>
     <script src="about.js"></script>
-    <script src="header.js"></script>
-
 </body>
 </html>

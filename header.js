@@ -5,15 +5,15 @@ class customHeader extends HTMLElement{
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
                 <div class="text-2xl font-bold">
-                    <a href="index.html" class="flex items-center space-x-2">
+                    <a href="index.php" class="flex items-center space-x-2">
                         <span>SYLFLORA</span>
                     </a>
                 </div>
                 <nav class="hidden md:flex items-center space-x-8">
-                    <a href="shop.html" class="hover:sylflora-gold transition duration-300" data-lang-key="nav_shop">Shop</a>
-                    <a href="kit.html" class="hover:sylflora-gold transition duration-300" data-lang-key="nav_test_kit">Test Kit</a>
-                    <a href="about.html" class="hover:sylflora-gold transition duration-300" data-lang-key="nav_about">About</a>
-                    <a href="contact.html" class="hover:sylflora-gold transition duration-300" data-lang-key="nav_contact">Contact</a>
+                    <a href="shop.php" class="hover:sylflora-gold transition duration-300" data-lang-key="nav_shop">Shop</a>
+                    <a href="kit.php" class="hover:sylflora-gold transition duration-300" data-lang-key="nav_test_kit">Test Kit</a>
+                    <a href="about.php" class="hover:sylflora-gold transition duration-300" data-lang-key="nav_about">About</a>
+                    <a href="contact.php" class="hover:sylflora-gold transition duration-300" data-lang-key="nav_contact">Contact</a>
                 </nav>
                 <div class="flex items-center space-x-4">
                     <button id="cart-button" class="relative p-2">
@@ -28,10 +28,10 @@ class customHeader extends HTMLElement{
             </div>
         </div>
         <div id="mobile-menu" class="hidden md:hidden bg-sylflora-green">
-             <a href="shop.html" class="block text-center py-4 text-lg hover:bg-sylflora-gold hover:text-sylflora-green transition duration-300" data-lang-key="nav_shop_mobile">Shop</a>
-             <a href="kit.html" class="block text-center py-4 text-lg hover:bg-sylflora-gold hover:text-sylflora-green transition duration-300" data-lang-key="nav_test_kit_mobile">Test Kit</a>
-             <a href="about.html" class="block text-center py-4 text-lg hover:bg-sylflora-gold hover:text-sylflora-green transition duration-300" data-lang-key="nav_about_mobile">About</a>
-             <a href="contact.html" class="block text-center py-4 text-lg hover:bg-sylflora-gold hover:text-sylflora-green transition duration-300" data-lang-key="nav_contact_mobile">Contact</a>
+             <a href="shop.php" class="block text-center py-4 text-lg hover:bg-sylflora-gold hover:text-sylflora-green transition duration-300" data-lang-key="nav_shop_mobile">Shop</a>
+             <a href="kit.php" class="block text-center py-4 text-lg hover:bg-sylflora-gold hover:text-sylflora-green transition duration-300" data-lang-key="nav_test_kit_mobile">Test Kit</a>
+             <a href="about.php" class="block text-center py-4 text-lg hover:bg-sylflora-gold hover:text-sylflora-green transition duration-300" data-lang-key="nav_about_mobile">About</a>
+             <a href="contact.php" class="block text-center py-4 text-lg hover:bg-sylflora-gold hover:text-sylflora-green transition duration-300" data-lang-key="nav_contact_mobile">Contact</a>
         </div>
     </header>
         `

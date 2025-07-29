@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // This is the corrected logic: it redirects only if the cart modal isn't on the current page.
     if (cartButton && !getEl('cart-modal')) { 
         cartButton.addEventListener('click', () => {
-            window.location.href = 'shop.html?openCart=true';
+            window.location.href = 'shop.php?openCart=true';
         });
     }
 
@@ -140,7 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (continueShoppingBtn) continueShoppingBtn.addEventListener('click', hideSuccessModal);
         if (successModalOverlay) successModalOverlay.addEventListener('click', hideSuccessModal);
         if (goToCartBtn) goToCartBtn.addEventListener('click', () => {
-            window.location.href = 'shop.html?openCart=true';
+            window.location.href = 'shop.php?openCart=true';
         });
     }
 });

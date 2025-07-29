@@ -12,7 +12,7 @@
 </head>
 <body class="font-bangla">
 
-   <custom-header></custom-header>
+    <?php include 'header.php'; ?>
 
     <main>
         <section id="contact" class="py-16 md:py-24">
@@ -51,7 +51,5 @@
 
     <script src="data.js"></script>
     <script src="global.js"></script>
-    <script src="contact.js"></script> 
-    <script src="header.js"></script>
-</body>
+    <script src="contact.js"></script> </body>
 </html>

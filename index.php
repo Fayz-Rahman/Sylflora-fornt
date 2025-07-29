@@ -12,7 +12,7 @@
 </head>
 <body class="font-bangla">
 
-   <custom-header></custom-header>
+    <?php include 'header.php'; ?>
 
     <main>
         <section id="hero" class="h-[50vh] md:h-[70vh] bg-cover bg-center bg-no-repeat flex items-center justify-center text-center text-white" style="background-image: url('https://placehold.co/1920x1080/023020/F5F5F5?text=Sylflora');">
@@ -26,7 +26,7 @@
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                 <h2 class="text-3xl md:text-4xl font-bold text-sylflora-green" data-lang-key="kit_title">Create Your Own 7ml Test Kit</h2>
                 <p class="mt-4 text-lg text-gray-600 max-w-3xl mx-auto" data-lang-key="kit_subtitle">Select a minimum of 5 perfumes to create your personalized 7ml sample kit.</p>
-                <a href="kit.html" class="mt-8 inline-block bg-sylflora-gold text-sylflora-green font-bold py-4 px-8 rounded-full text-lg hover:opacity-90 transition duration-300" data-lang-key="kit_button">Create Your Kit</a>
+                <a href="kit.php" class="mt-8 inline-block bg-sylflora-gold text-sylflora-green font-bold py-4 px-8 rounded-full text-lg hover:opacity-90 transition duration-300" data-lang-key="kit_button">Create Your Kit</a>
             </div>
         </section>
 
@@ -129,6 +129,5 @@
     <script src="data.js"></script>
     <script src="global.js"></script>
     <script src="shop.js"></script> 
-    <script src="header.js"></script>
 </body>
 </html>
