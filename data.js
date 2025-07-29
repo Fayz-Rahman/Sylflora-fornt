@@ -88,11 +88,14 @@ const langData = {
         checkout_form_phone: "Your Mobile Number* (11 Digits)",
         checkout_form_address: "Your Full Address\n(Thana, District, and where will the delivery person come?*)",
         checkout_delivery_location: "Delivery Location",
-        checkout_inside_dhaka: "Inside Dhaka",
-        checkout_outside_dhaka: "Outside Dhaka",
+        
+        checkout_inside_dhaka: 'Inside Dhaka<br><span style="font-size: 0.8em;">(80 tk)</span>',
+checkout_outside_dhaka: 'Outside Dhaka<br><span style="font-size: 0.8em;">(130 tk)</span>',
+
         checkout_payment_method: "Payment Method",
         checkout_cod: "Cash on Delivery",
-        checkout_delivery_time: "Delivery Time: 1-3 days in Dhaka, 3-5 days outside Dhaka.",
+        checkout_delivery_time: "✅Pay after receiving the product. <br>🚚Delivery Time: 1-3 days in Dhaka, <br> 3-5 days outside Dhaka.",
+
         checkout_confirm_order: "Confirm Order (COD)",
         checkout_facebook_help: 'For any help, message us on,<br><a href="https://www.facebook.com/sylflora.official" target="_blank" class="text-blue-600 font-bold hover:underline">our Facebook Page</a>.',
         order_placed_title: "Your order has been received successfully!",
@@ -167,11 +170,16 @@ const langData = {
         checkout_form_phone: "আপনার মোবাইল নাম্বার* (১১ ডিজিট)",
         checkout_form_address: "আপনার সম্পূর্ণ ঠিকানা\n(থানা, জেলা এবং ডেলিভারী ম্যান কোথায় আসবে?*)",
         checkout_delivery_location: "ডেলিভারি এলাকা",
-        checkout_inside_dhaka: "ঢাকার মধ্যে",
-        checkout_outside_dhaka: "ঢাকার বাইরে",
+        checkout_inside_dhaka: 'ঢাকার মধ্যে <br> <span style="font-size: 0.8em;">(৮০ টাকা)</span>',
+        
+        checkout_outside_dhaka: 'ঢাকার বাইরে <br> <span style="font-size: 0.8em;">(১৩০ টাকা)</span>',
+
         checkout_payment_method: "পেমেন্ট পদ্ধতি",
         checkout_cod: "ক্যাশ অন ডেলিভারি",
-        checkout_delivery_time: "ডেলিভারি সময়: ঢাকা শহরে ১-৩ দিন, ঢাকার বাইরে ৩-৫ দিন।",
+        
+        checkout_delivery_time: `✅পণ্য হাতে পেয়ে মূল্য পরিশোধ করুন। <br> 
+<span style="font-size:0.75em;">ডেলিভারি সময়: ঢাকা শহরে ১-৩ দিন, ঢাকার বাইরে ৩-৫ দিন।</span>`,
+
         checkout_confirm_order: "অর্ডার কনফার্ম করুন (COD)",
         checkout_facebook_help: 'যেকোনো সাহায্যের জন্য মেসেজ করুন,<br>আমাদের <a href="https://www.facebook.com/sylflora.official" target="_blank" class="text-blue-600 font-bold hover:underline">Facebook পেজে</a>।',
         order_placed_title: "আপনার অর্ডারটি সফলভাবে গৃহীত হয়েছে!",
@@ -181,4 +189,3 @@ const langData = {
         order_placed_button: "ঠিক আছে"
     }
 };
-
