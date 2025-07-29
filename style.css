@@ -113,6 +113,19 @@ body {
     display: none;
 }
 
+/* Add space at the bottom of modals on mobile to avoid overlap with the nav bar */
+@media (max-width: 767px) {
+    /* For Cart Slide-out Panel */
+    #cart-panel .flex-col {
+        padding-bottom: 80px;
+    }
+
+    /* For Centered Checkout Modal */
+    #checkout-modal > .bg-white {
+         margin-bottom: 80px;
+    }
+}
+
 
 /* Hide on desktop */
 @media (min-width: 768px) {
