@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let activeFilter = 'all';
     let sortValue = 'default';
 
-    // === নতুন: পণ্যের পরিমাণ আপডেট করার জন্য ফাংশন ===
+    // --- পণ্যের পরিমাণ আপডেট করার জন্য ফাংশন ---
     const updateCartItemQuantity = (cartItemId, action) => {
         let cart = getCart();
         const itemIndex = cart.findIndex(item => item.cartItemId === cartItemId);
@@ -53,6 +53,10 @@ document.addEventListener('DOMContentLoaded', () => {
             if (action === 'increase') {
                 cart[itemIndex].quantity++;
             } else if (action === 'decrease') {
+                // টেস্ট কিটের পরিমাণ ১ এর নিচে নামতে দেওয়া হবে না
+                if (cart[itemIndex].isKit && cart[itemIndex].quantity <= 1) {
+                    return; 
+                }
                 cart[itemIndex].quantity--;
             }
 
@@ -67,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
         updateCartBadge();
     };
 
-    // === Cart & Checkout Logic ---
+    // --- Cart & Checkout Logic ---
     const openCart = () => {
         if (!cartModal) return;
         renderCartItems();
@@ -93,11 +97,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 300);
     };
 
-    // === আপডেট করা হয়েছে: পরিমাণ নিয়ন্ত্রণের বাটনসহ renderCartItems ফাংশন ===
+    // === সম্পূর্ণ আপডেট করা renderCartItems ফাংশন ===
     const renderCartItems = () => {
         const cart = getCart();
         if (!cartItemsContainer) return;
         cartItemsContainer.innerHTML = '';
+
         if (cart.length === 0) {
             cartItemsContainer.innerHTML = `<p class="text-center text-gray-500 py-8" data-lang-key="cart_empty">${langData[currentLang].cart_empty}</p>`;
             checkoutBtn.style.display = 'none';
@@ -107,25 +112,61 @@ document.addEventListener('DOMContentLoaded', () => {
             clearCartBtn.style.display = 'flex';
             cart.forEach(item => {
                 const itemEl = document.createElement('div');
-                itemEl.className = 'flex items-center justify-between py-4';
-                itemEl.innerHTML = `
-                    <div class="flex items-center gap-4 flex-1">
-                        <img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-cover rounded-md">
-                        <div class="flex-1 min-w-0">
-                            <p class="font-semibold truncate">${item.name}</p>
-                            <p class="text-sm text-gray-500">${item.size ? item.size : ''}</p>
-                            <div class="flex items-center gap-3 mt-2">
+                itemEl.className = 'py-4 border-b last:border-b-0';
+                
+                let itemDetailsHTML = '';
+
+                // আইটেমটি টেস্ট কিট কিনা তা পরীক্ষা করা হচ্ছে
+                if (item.isKit) {
+                    itemDetailsHTML = `
+                        <div class="flex items-start justify-between">
+                            <div class="flex items-start gap-4">
+                                <img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-cover rounded-md">
+                                <div>
+                                    <p class="font-semibold">${item.name}</p>
+                                    <p class="text-sm text-gray-500">${item.size}</p>
+                                    <p class="font-bold text-sylflora-green mt-1">BDT ${(item.price * item.quantity).toLocaleString('en-IN')}</p>
+                                </div>
+                            </div>
+                            <button class="remove-item-btn text-red-500 hover:text-red-700 text-2xl" data-id="${item.cartItemId}">&times;</button>
+                        </div>
+                        <div class="mt-3 pl-4 sm:pl-20">
+                            <p class="font-medium text-sm mb-1">Included Perfumes:</p>
+                            <ul class="list-disc list-inside text-sm text-gray-600 space-y-1">
+                                ${item.items.map(perfume => `<li>${perfume}</li>`).join('')}
+                            </ul>
+                            <div class="flex items-center gap-4 mt-3">
+                                <span class="text-sm font-medium">Quantity:</span>
                                 <button class="quantity-btn h-6 w-6 flex items-center justify-center bg-gray-200 rounded-full text-lg font-bold" data-id="${item.cartItemId}" data-action="decrease">-</button>
                                 <span class="font-semibold">${item.quantity}</span>
                                 <button class="quantity-btn h-6 w-6 flex items-center justify-center bg-gray-200 rounded-full text-lg font-bold" data-id="${item.cartItemId}" data-action="increase">+</button>
                             </div>
                         </div>
-                    </div>
-                    <div class="text-right ml-2">
-                        <p class="font-bold text-sylflora-green">BDT ${(item.price * item.quantity).toLocaleString('en-IN')}</p>
-                        <button class="remove-item-btn text-red-500 hover:text-red-700 text-sm mt-1" data-id="${item.cartItemId}">Remove</button>
-                    </div>
-                `;
+                    `;
+                } else { // সাধারণ পণ্যের জন্য
+                    itemDetailsHTML = `
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-4 flex-1">
+                                <img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-cover rounded-md">
+                                <div class="flex-1 min-w-0">
+                                    <p class="font-semibold truncate">${item.name}</p>
+                                    <p class="text-sm text-gray-500">${item.size ? item.size : ''}</p>
+                                    <div class="flex items-center gap-3 mt-2">
+                                        <button class="quantity-btn h-6 w-6 flex items-center justify-center bg-gray-200 rounded-full text-lg font-bold" data-id="${item.cartItemId}" data-action="decrease">-</button>
+                                        <span class="font-semibold">${item.quantity}</span>
+                                        <button class="quantity-btn h-6 w-6 flex items-center justify-center bg-gray-200 rounded-full text-lg font-bold" data-id="${item.cartItemId}" data-action="increase">+</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-right ml-2">
+                                <p class="font-bold text-sylflora-green">BDT ${(item.price * item.quantity).toLocaleString('en-IN')}</p>
+                                <button class="remove-item-btn text-red-500 hover:text-red-700 text-sm mt-1" data-id="${item.cartItemId}">Remove</button>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                itemEl.innerHTML = itemDetailsHTML;
                 cartItemsContainer.appendChild(itemEl);
             });
         }
@@ -167,7 +208,9 @@ document.addEventListener('DOMContentLoaded', () => {
         cart.forEach(item => {
             const li = document.createElement('li');
             li.className = 'flex justify-between text-sm';
-            li.innerHTML = `<span>${item.name} (${item.size || 'N/A'}) x ${item.quantity}</span> <span>BDT ${(item.price * item.quantity).toLocaleString('en-IN')}</span>`;
+            // টেস্ট কিটের জন্য চেকআউটে বিস্তারিত নাম দেখানো
+            const itemName = item.isKit ? `${item.name} (${item.items.length} Perfumes)` : `${item.name} (${item.size || 'N/A'})`;
+            li.innerHTML = `<span>${itemName} x ${item.quantity}</span> <span>BDT ${(item.price * item.quantity).toLocaleString('en-IN')}</span>`;
             checkoutItemList.appendChild(li);
         });
 
@@ -321,12 +364,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (checkoutBtn) checkoutBtn.addEventListener('click', openCheckoutModal);
         if (closeCheckoutModalBtn) closeCheckoutModalBtn.addEventListener('click', closeCheckoutModal);
 
-        // === আপডেট করা হয়েছে: পরিমাণ এবং রিমুভ বাটনের জন্য ইভেন্ট লিসেনার ===
+        // --- পরিমাণ এবং রিমুভ বাটনের জন্য ইভেন্ট লিসেনার ---
         if (cartItemsContainer) {
             cartItemsContainer.addEventListener('click', e => {
                 const target = e.target;
                 
-                // Remove button action
                 if (target.classList.contains('remove-item-btn')) {
                     const cartItemId = target.dataset.id;
                     let cart = getCart();
@@ -336,7 +378,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     updateCartBadge();
                 }
 
-                // Quantity button action
                 if (target.classList.contains('quantity-btn')) {
                     const cartItemId = target.dataset.id;
                     const action = target.dataset.action;
