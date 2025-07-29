@@ -291,7 +291,7 @@ document.addEventListener('DOMContentLoaded', () => {
             card.className = 'bg-white rounded-lg shadow-md overflow-hidden transform hover:-translate-y-2 transition-transform duration-300 cursor-pointer';
             
             card.addEventListener('click', () => {
-                window.location.href = `product.html?id=${product.id}`;
+                window.location.href = `product.php?id=${product.id}`;
             });
             
             let priceText = `<p class="mt-2 font-bold">${langData[currentLang].price_tba || 'Price TBA'}</p>`;

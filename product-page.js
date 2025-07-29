@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <h2 class="text-2xl md:text-3xl font-bold text-sylflora-green text-center mb-8">Related Products</h2>
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
                 ${related.map(product => `
-                    <a href="product.html?id=${product.id}" class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden transform hover:-translate-y-1 transition-transform duration-300 block">
+                    <a href="product.php?id=${product.id}" class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden transform hover:-translate-y-1 transition-transform duration-300 block">
                         <img src="${product.images[0]}" alt="${product.name}" class="w-full aspect-square object-cover">
                         <div class="p-3 text-center">
                             <h3 class="text-sm font-bold text-sylflora-green truncate">${product.name}</h3>
@@ -174,7 +174,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const price = typeof priceInfo === 'object' ? priceInfo.offer : priceInfo;
                 handleAddToCart(product, size, price);
                 if (isInstantBuy) {
-                    window.location.href = 'shop.html?openCart=true';
+                    window.location.href = 'shop.php?openCart=true';
                 } else {
                     // This line is updated to call the new success modal function
                     showSuccessModal(product.name);
