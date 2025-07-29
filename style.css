@@ -1,6 +1,8 @@
 body {
     background-color: #F5F5F5;
     color: #023020;
+    /* This is the new rule to add space at the bottom */
+    padding-bottom: 80px; 
 }
 .font-english { font-family: 'Poppins', sans-serif; }
 .font-bangla { font-family: 'Hind Siliguri', sans-serif; }
@@ -35,6 +37,10 @@ body {
     .chart-container {
         height: 350px;
     }
+    /* Only apply padding on mobile */
+    body {
+        padding-bottom: 0;
+    }
 }
 
 /* Cart Slide-in/out Animation */
@@ -44,7 +50,6 @@ body {
 .cart-slide-out {
     transform: translateX(100%);
 }
-/*data*/
 
 /* Bottom Navigation Bar for Mobile */
 .mobile-bottom-nav {
