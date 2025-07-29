@@ -80,23 +80,23 @@ const langData = {
         cart_subtotal: "Subtotal",
         cart_checkout: "Checkout",
         cart_clear: "Clear Cart",
+        confirm_clear_title: "Clear Cart?",
+        confirm_clear_message: "Are you sure you want to remove all items from your cart?",
+        confirm_clear_yes: "Yes, Clear",
+        confirm_clear_no: "No, Cancel",
         cart_empty: "Your cart is empty.",
         checkout_title: "Confirm Order",
         checkout_summary_title: "Order Summary",
         checkout_details_title: "Your Details",
         checkout_form_name: "Your Name",
         checkout_form_phone: "Your Mobile Number* (11 Digits)",
-        checkout_form_address:"Enter your full address\n\n(e.g., Thana, District, and exact delivery location details)",
-        
+        checkout_form_address: "Enter your full address\n\n(e.g., Thana, District, and exact delivery location details)",
         checkout_delivery_location: "Delivery Location",
-        
         checkout_inside_dhaka: 'Inside Dhaka<br><span style="font-size: 0.8em;">(80 tk)</span>',
-checkout_outside_dhaka: 'Outside Dhaka<br><span style="font-size: 0.8em;">(130 tk)</span>',
-
+        checkout_outside_dhaka: 'Outside Dhaka<br><span style="font-size: 0.8em;">(130 tk)</span>',
         checkout_payment_method: "Payment Method",
         checkout_cod: "Cash on Delivery",
-        checkout_delivery_time: "✅Pay after receiving the product. <br>🚚Delivery Time: 1-3 days in Dhaka, <br> 3-5 days outside Dhaka.",
-
+        checkout_delivery_time: `✅Pay after receiving the product.<br>🚚Delivery Time: 1-3 days in Dhaka, <br> 3-5 days outside Dhaka.`,
         checkout_confirm_order: "Confirm Order (COD)",
         checkout_facebook_help: 'For any help, message us on,<br><a href="https://www.facebook.com/sylflora.official" target="_blank" class="text-blue-600 font-bold hover:underline">our Facebook Page</a>.',
         order_placed_title: "Your order has been received successfully!",
@@ -163,6 +163,10 @@ checkout_outside_dhaka: 'Outside Dhaka<br><span style="font-size: 0.8em;">(130 t
         cart_subtotal: "মোট",
         cart_checkout: "চেকআউট",
         cart_clear: "কার্ট খালি করুন",
+        confirm_clear_title: "কার্ট খালি করবেন?",
+        confirm_clear_message: "আপনি কি নিশ্চিত যে আপনার কার্ট থেকে সমস্ত পণ্য মুছে ফেলতে চান?",
+        confirm_clear_yes: "হ্যাঁ, খালি করুন",
+        confirm_clear_no: "না, বাতিল করুন",
         cart_empty: "আপনার কার্ট খালি।",
         checkout_title: "অর্ডার কনফার্ম করুন",
         checkout_summary_title: "অর্ডার সারাংশ",
@@ -170,18 +174,12 @@ checkout_outside_dhaka: 'Outside Dhaka<br><span style="font-size: 0.8em;">(130 t
         checkout_form_name: "আপনার নাম",
         checkout_form_phone: "আপনার মোবাইল নাম্বার* (১১ ডিজিট)",
         checkout_form_address: "আপনার সম্পূর্ণ ঠিকানা লিখুন \n\n(যেমন: থানা, জেলা এবং ডেলিভারি ম্যান কোথায় পৌঁছাবে তা বিস্তারিতভাবে লিখুন)",
-
         checkout_delivery_location: "ডেলিভারি এলাকা",
         checkout_inside_dhaka: 'ঢাকার মধ্যে <br> <span style="font-size: 0.8em;">(৮০ টাকা)</span>',
-        
         checkout_outside_dhaka: 'ঢাকার বাইরে <br> <span style="font-size: 0.8em;">(১৩০ টাকা)</span>',
-
         checkout_payment_method: "পেমেন্ট পদ্ধতি",
         checkout_cod: "ক্যাশ অন ডেলিভারি",
-        
-        checkout_delivery_time: `✅পণ্য হাতে পেয়ে মূল্য পরিশোধ করুন। <br> 
-<span style="font-size:0.75em;">ডেলিভারি সময়: ঢাকা শহরে ১-৩ দিন, ঢাকার বাইরে ৩-৫ দিন।</span>`,
-
+        checkout_delivery_time: `✅পণ্য হাতে পেয়ে মূল্য পরিশোধ করুন।<br> <span style="font-size:0.75em;">ডেলিভারি সময়: ঢাকা শহরে ১-৩ দিন, ঢাকার বাইরে ৩-৫ দিন।</span>`,
         checkout_confirm_order: "অর্ডার কনফার্ম করুন (COD)",
         checkout_facebook_help: 'যেকোনো সাহায্যের জন্য মেসেজ করুন,<br>আমাদের <a href="https://www.facebook.com/sylflora.official" target="_blank" class="text-blue-600 font-bold hover:underline">Facebook পেজে</a>।',
         order_placed_title: "আপনার অর্ডারটি সফলভাবে গৃহীত হয়েছে!",

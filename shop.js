@@ -40,9 +40,29 @@ document.addEventListener('DOMContentLoaded', () => {
     const orderConfirmationOverlay = getEl('order-confirmation-overlay');
     const orderConfirmationBtn = getEl('order-confirmation-btn');
 
+    // নতুন: কনফার্মেশন মোডালের জন্য এলিমেন্ট
+    const confirmClearModal = getEl('confirm-clear-modal');
+    const confirmClearOverlay = getEl('confirm-clear-overlay');
+    const confirmClearYesBtn = getEl('confirm-clear-yes-btn');
+    const confirmClearNoBtn = getEl('confirm-clear-no-btn');
+
     // --- ফিল্টার এবং সর্টিং এর স্টেট সংরক্ষণের জন্য ভ্যারিয়েবল ---
     let activeFilter = 'all';
     let sortValue = 'default';
+
+    // --- নতুন: কনফার্মেশন মোডাল দেখানোর এবং লুকানোর ফাংশন ---
+    const showConfirmClearModal = () => {
+        if (!confirmClearModal) return;
+        switchLanguage(currentLang);
+        confirmClearModal.classList.remove('hidden');
+        confirmClearModal.classList.add('flex');
+    };
+
+    const hideConfirmClearModal = () => {
+        if (!confirmClearModal) return;
+        confirmClearModal.classList.add('hidden');
+        confirmClearModal.classList.remove('flex');
+    };
 
     // --- পণ্যের পরিমাণ আপডেট করার জন্য ফাংশন ---
     const updateCartItemQuantity = (cartItemId, action) => {
@@ -53,19 +73,15 @@ document.addEventListener('DOMContentLoaded', () => {
             if (action === 'increase') {
                 cart[itemIndex].quantity++;
             } else if (action === 'decrease') {
-                // টেস্ট কিটের পরিমাণ ১ এর নিচে নামতে দেওয়া হবে না
                 if (cart[itemIndex].isKit && cart[itemIndex].quantity <= 1) {
                     return; 
                 }
                 cart[itemIndex].quantity--;
             }
-
-            // পরিমাণ ০ বা তার কম হলে আইটেমটি কার্ট থেকে মুছে যাবে
             if (cart[itemIndex].quantity <= 0) {
                 cart.splice(itemIndex, 1);
             }
         }
-
         saveCart(cart);
         renderCartItems();
         updateCartBadge();
@@ -97,7 +113,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 300);
     };
 
-    // === সম্পূর্ণ আপডেট করা renderCartItems ফাংশন ===
     const renderCartItems = () => {
         const cart = getCart();
         if (!cartItemsContainer) return;
@@ -116,7 +131,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 let itemDetailsHTML = '';
 
-                // আইটেমটি টেস্ট কিট কিনা তা পরীক্ষা করা হচ্ছে
                 if (item.isKit) {
                     itemDetailsHTML = `
                         <div class="flex items-start justify-between">
@@ -143,7 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             </div>
                         </div>
                     `;
-                } else { // সাধারণ পণ্যের জন্য
+                } else {
                     itemDetailsHTML = `
                         <div class="flex items-center justify-between">
                             <div class="flex items-center gap-4 flex-1">
@@ -180,12 +194,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if(cartSubtotalEl) cartSubtotalEl.textContent = `BDT ${subtotal.toLocaleString('en-IN')}`;
     };
 
+    // আপডেটেড: clearCart ফাংশন এখন কাস্টম মোডাল খুলবে
     const clearCart = () => {
-        if (confirm('Are you sure you want to clear your cart?')) {
-            saveCart([]);
-            renderCartItems();
-            updateCartBadge();
-        }
+        showConfirmClearModal();
     };
 
     const openCheckoutModal = () => {
@@ -202,15 +213,35 @@ document.addEventListener('DOMContentLoaded', () => {
         checkoutModal.classList.remove('flex');
     };
 
+    // আপডেটেড: populateCheckout ফাংশনে এখন কিটের বিস্তারিত বিবরণ দেখা যাবে
     const populateCheckout = () => {
         const cart = getCart();
         checkoutItemList.innerHTML = '';
         cart.forEach(item => {
-            const li = document.createElement('li');
-            li.className = 'flex justify-between text-sm';
-            // টেস্ট কিটের জন্য চেকআউটে বিস্তারিত নাম দেখানো
-            const itemName = item.isKit ? `${item.name} (${item.items.length} Perfumes)` : `${item.name} (${item.size || 'N/A'})`;
-            li.innerHTML = `<span>${itemName} x ${item.quantity}</span> <span>BDT ${(item.price * item.quantity).toLocaleString('en-IN')}</span>`;
+            const li = document.createElement('div');
+            li.className = 'text-sm mb-3';
+            
+            let itemHTML = '';
+            
+            if (item.isKit && item.items) {
+                const kitDetails = `<ul class="list-disc list-inside text-xs text-gray-500 pl-4 mt-1">
+                    ${item.items.map(perfume => `<li>${perfume}</li>`).join('')}
+                </ul>`;
+                itemHTML = `<div>
+                    <div class="flex justify-between">
+                        <span class="font-medium">${item.name} x ${item.quantity}</span>
+                        <span class="font-medium">BDT ${(item.price * item.quantity).toLocaleString('en-IN')}</span>
+                    </div>
+                    ${kitDetails}
+                </div>`;
+            } else {
+                itemHTML = `<div class="flex justify-between">
+                    <span>${item.name} (${item.size || 'N/A'}) x ${item.quantity}</span>
+                    <span>BDT ${(item.price * item.quantity).toLocaleString('en-IN')}</span>
+                </div>`;
+            }
+            
+            li.innerHTML = itemHTML;
             checkoutItemList.appendChild(li);
         });
 
@@ -287,44 +318,40 @@ document.addEventListener('DOMContentLoaded', () => {
     const updateDisplayedProducts = () => {
         if (!productGrid) return;
         const searchTerm = searchInput.value.toLowerCase().trim();
-        
         let filteredProducts = productData.filter(p => p.name.toLowerCase().includes(searchTerm));
-        
         if (activeFilter !== 'all') {
             filteredProducts = filteredProducts.filter(p => p.gender === activeFilter || (activeFilter === 'Female' && p.gender === 'Women'));
         }
-        
         if (sortValue === 'price-asc') {
             filteredProducts.sort((a, b) => (getBasePriceInfo(a)?.offer || Infinity) - (getBasePriceInfo(b)?.offer || Infinity));
         } else if (sortValue === 'price-desc') {
             filteredProducts.sort((a, b) => (getBasePriceInfo(b)?.offer || -Infinity) - (getBasePriceInfo(a)?.offer || -Infinity));
         }
-        
         renderProducts(filteredProducts);
     };
 
     // --- Event Listeners on Shop Page ---
-    if (productGrid) {
-        searchInput.addEventListener('input', updateDisplayedProducts);
+    if (productGrid || getEl('cart-modal')) {
+        if(searchInput) searchInput.addEventListener('input', updateDisplayedProducts);
 
-        filterMenuButton.addEventListener('click', (event) => {
+        if(filterMenuButton) filterMenuButton.addEventListener('click', (event) => {
             event.stopPropagation();
             filterOptions.classList.toggle('hidden');
-            sortOptions.classList.add('hidden');
+            if(sortOptions) sortOptions.classList.add('hidden');
         });
 
-        sortMenuButton.addEventListener('click', (event) => {
+        if(sortMenuButton) sortMenuButton.addEventListener('click', (event) => {
             event.stopPropagation();
             sortOptions.classList.toggle('hidden');
-            filterOptions.classList.add('hidden');
+            if(filterOptions) filterOptions.classList.add('hidden');
         });
 
         document.addEventListener('click', (event) => {
             if (filterContainer && !filterContainer.contains(event.target)) {
-                filterOptions.classList.add('hidden');
+                if(filterOptions) filterOptions.classList.add('hidden');
             }
             if (sortContainer && !sortContainer.contains(event.target)) {
-                sortOptions.classList.add('hidden');
+                if(sortOptions) sortOptions.classList.add('hidden');
             }
         });
 
@@ -364,23 +391,21 @@ document.addEventListener('DOMContentLoaded', () => {
         if (checkoutBtn) checkoutBtn.addEventListener('click', openCheckoutModal);
         if (closeCheckoutModalBtn) closeCheckoutModalBtn.addEventListener('click', closeCheckoutModal);
 
-        // --- পরিমাণ এবং রিমুভ বাটনের জন্য ইভেন্ট লিসেনার ---
         if (cartItemsContainer) {
             cartItemsContainer.addEventListener('click', e => {
                 const target = e.target;
-                
-                if (target.classList.contains('remove-item-btn')) {
-                    const cartItemId = target.dataset.id;
+                if (target.closest('.remove-item-btn')) {
+                    const cartItemId = target.closest('.remove-item-btn').dataset.id;
                     let cart = getCart();
                     cart = cart.filter(item => item.cartItemId !== cartItemId);
                     saveCart(cart);
                     renderCartItems();
                     updateCartBadge();
                 }
-
-                if (target.classList.contains('quantity-btn')) {
-                    const cartItemId = target.dataset.id;
-                    const action = target.dataset.action;
+                if (target.closest('.quantity-btn')) {
+                    const button = target.closest('.quantity-btn');
+                    const cartItemId = button.dataset.id;
+                    const action = button.dataset.action;
                     updateCartItemQuantity(cartItemId, action);
                 }
             });
@@ -408,14 +433,24 @@ document.addEventListener('DOMContentLoaded', () => {
         
         if (orderConfirmationOverlay) orderConfirmationOverlay.addEventListener('click', hideOrderConfirmationModal);
         if (orderConfirmationBtn) orderConfirmationBtn.addEventListener('click', hideOrderConfirmationModal);
+
+        // নতুন: কনফার্মেশন মোডালের জন্য ইভেন্ট লিসেনার
+        if (confirmClearOverlay) confirmClearOverlay.addEventListener('click', hideConfirmClearModal);
+        if (confirmClearNoBtn) confirmClearNoBtn.addEventListener('click', hideConfirmClearModal);
+        if (confirmClearYesBtn) confirmClearYesBtn.addEventListener('click', () => {
+            saveCart([]);
+            renderCartItems();
+            updateCartBadge();
+            hideConfirmClearModal();
+        });
     }
 
     // --- Initialization for Shop Page ---
     if (productGrid) {
         updateDisplayedProducts();
-        const urlParams = new URLSearchParams(window.location.search);
-        if (urlParams.get('openCart') === 'true') {
-            openCart();
-        }
+    }
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('openCart') === 'true') {
+        openCart();
     }
 });
