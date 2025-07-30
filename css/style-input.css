@@ -1,3 +1,5 @@
+@import 'tailwindcss';
+
 body {
     background-color: #F5F5F5;
     color: #023020;
@@ -21,6 +23,12 @@ body {
     background-color: rgba(0, 0, 0, 0.6);
     backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
+}
+
+/* workaround coz custom sylflora colors overrides bg-gray-400 */
+#add-kit-to-cart-btn:disabled {
+    background-color: #9CA3AF; 
+    cursor: not-allowed;
 }
 
 /* Chart Styles */
@@ -123,6 +131,10 @@ body {
     /* For Centered Checkout Modal */
     #checkout-modal > .bg-white {
          margin-bottom: 80px;
+    }
+
+    #kit-summary {
+        bottom: 75px; 
     }
 }
 
