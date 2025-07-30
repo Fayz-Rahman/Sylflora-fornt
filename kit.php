@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Your Test Kit - Sylflora</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="./css/style.css">
 </head>
 <body class="font-bangla">
 
@@ -37,7 +37,7 @@
                         <p class="text-lg font-semibold" data-lang-key="kit_selection_counter">Select at least 5 perfumes</p>
                         <p id="kit-counter" class="text-2xl font-bold text-sylflora-green">0 selected</p>
                     </div>
-                    <button id="add-kit-to-cart-btn" class="w-full md:w-auto bg-sylflora-gold text-sylflora-green font-bold py-3 px-8 rounded-full text-lg hover:opacity-90 transition disabled:bg-gray-400 disabled:cursor-not-allowed" disabled data-lang-key="kit_add_to_cart">Add Kit to Cart</button>
+                    <button id="add-kit-to-cart-btn" class="w-full md:w-auto bg-sylflora-gold text-sylflora-green font-bold py-3 px-8 rounded-full text-lg hover:opacity-90 transition" disabled data-lang-key="kit_add_to_cart">Add Kit to Cart</button>
                 </div>
             </div>
         </div>
@@ -68,8 +68,8 @@
 
 
       <?php include 'bottom-nav.php'; ?>
-    <script src="data.js"></script>
-    <script src="global.js"></script>
-    <script src="kit.js"></script> 
+    <script src="./js/data.js"></script>
+    <script src="./js/global.js"></script>
+    <script src="./js/kit.js"></script> 
 </body>
 </html>

@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shop - Sylflora</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="./css/style.css">
 </head>
 <body class="font-bangla">
 
@@ -108,7 +108,7 @@
     </footer>
     
     <div id="cart-modal" class="fixed inset-0 z-[70] overflow-hidden hidden">
-        <div id="cart-bg" class="absolute inset-0 bg-black bg-opacity-50 transition-opacity"></div>
+        <div id="cart-bg" class="absolute inset-0  bg-opacity-50 transition-opacity"></div>
         <div id="cart-panel" class="absolute inset-y-0 right-0 max-w-full flex transition-transform duration-300 ease-in-out cart-slide-out">
             <div class="w-screen max-w-md">
                 <div class="h-full flex flex-col bg-white shadow-xl">
@@ -127,8 +127,8 @@
                             <p id="cart-subtotal"></p>
                         </div>
                         <div class="mt-6 space-y-3">
-                            <button id="checkout-btn" class="w-full flex items-center justify-center rounded-md border border-transparent bg-sylflora-green px-6 py-3 text-base font-medium text-white shadow-sm hover:opacity-90" data-lang-key="cart_checkout">Checkout</button>
-                            <button id="clear-cart-btn" class="w-full flex items-center justify-center rounded-md border border-red-500 px-6 py-3 text-base font-medium text-red-500 shadow-sm hover:bg-red-500 hover:text-white" data-lang-key="cart_clear">Clear Cart</button>
+                            <button id="checkout-btn" class="cursor-pointer w-full flex items-center justify-center rounded-md border border-transparent bg-sylflora-green px-6 py-3 text-base font-medium text-white shadow-sm hover:opacity-90" data-lang-key="cart_checkout">Checkout</button>
+                            <button id="clear-cart-btn" class="cursor-pointer w-full flex items-center justify-center rounded-md border border-red-500 px-6 py-3 text-base font-medium text-red-500 shadow-sm hover:bg-red-500 hover:text-white" data-lang-key="cart_clear">Clear Cart</button>
                         </div>
                     </div>
                 </div>
@@ -202,9 +202,27 @@
         </div>
     </div>
     
-      <?php include 'bottom-nav.php'; ?>
-    <script src="data.js"></script>
-    <script src="global.js"></script>
-    <script src="shop.js"></script>
+    <div id="confirm-clear-modal" class="fixed inset-0 z-[100] modal-bg items-center justify-center hidden">
+        <div id="confirm-clear-overlay" class="absolute inset-0"></div>
+        <div class="bg-white rounded-lg shadow-2xl w-11/12 max-w-sm text-center p-6 md:p-8 relative">
+            <div class="flex justify-center mb-4">
+                <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center">
+                    <svg class="w-10 h-10 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                </div>
+            </div>
+            <h2 class="text-xl font-bold text-gray-800 mb-2" data-lang-key="confirm_clear_title"></h2>
+            <p class="mb-6 text-gray-600" data-lang-key="confirm_clear_message"></p>
+            <div class="flex justify-center gap-4">
+                <button id="confirm-clear-no-btn" class="cursor-pointer w-full border-2 border-gray-400 text-gray-600 font-bold py-2.5 px-6 rounded-full" data-lang-key="confirm_clear_no"></button>
+                <button id="confirm-clear-yes-btn" class="cursor-pointer w-full bg-red-500 text-white font-bold py-2.5 px-6 rounded-full" data-lang-key="confirm_clear_yes"></button>
+            </div>
+        </div>
+    </div>
+    
+
+    <?php include 'bottom-nav.php'; ?>
+    <script src="./js/data.js"></script>
+    <script src="./js/global.js"></script>
+    <script src="./js/shop.js"></script>
 </body>
 </html>

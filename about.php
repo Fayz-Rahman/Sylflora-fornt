@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Us - Sylflora</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="./css/style.css">
 </head>
 <body class="font-bangla bg-gray-50">
 
@@ -67,8 +67,8 @@
 
 
   <?php include 'bottom-nav.php'; ?>
-    <script src="data.js"></script>
-    <script src="global.js"></script>
-    <script src="about.js"></script>
+    <script src="./js/data.js"></script>
+    <script src="./js/global.js"></script>
+    <script src="./js/about.js"></script>
 </body>
 </html>
